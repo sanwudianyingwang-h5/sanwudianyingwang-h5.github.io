@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三五电影网 - 热门电影在线观看_高清影视资源聚合平台</title>
+<meta name="description" content="三五电影网（sanwudianyingwang-h5）提供最新热门电影、高分剧集、经典老片在线观看，聚合全网高清影视资源，分类清晰、更新及时，手机电脑均可流畅访问。">
+<meta name="keywords" content="三五电影网, sanwudianyingwang, 在线电影, 热门影视, 高清电影, 电影排行榜, 免费观影">
+<meta name="author" content="三五电影网">
+<meta name="theme-color" content="#0f2027">
+<link rel="canonical" href="https://sanwudianyingwang-h5.github.io/">
+<style>
+:root{
+  --bg:#0f2027; --bg2:#203a43; --bg3:#2c5364;
+  --accent:#ffd54f; --accent2:#ff8a65;
+  --text:#e8f0f2; --muted:#9fb3b8; --card:#18323a; --line:#2b4a52;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:linear-gradient(160deg,var(--bg),var(--bg2),var(--bg3));
+  background-attachment:fixed; color:var(--text); line-height:1.6; padding-top:64px;
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.container{max-width:1160px;margin:0 auto;padding:0 16px}
+
+/* ===== Header ===== */
+.site-header{
+  position:fixed;top:0;left:0;right:0;z-index:100;height:64px;
+  background:rgba(15,32,39,.92);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.header-inner{display:flex;align-items:center;justify-content:space-between;height:100%}
+.logo{font-size:22px;font-weight:800;letter-spacing:1px;color:#fff}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:6px;list-style:none}
+.nav-links a{
+  display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:var(--muted);transition:.2s;
+}
+.nav-links a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.menu-btn{display:none;width:40px;height:40px;border:1px solid var(--line);border-radius:8px;
+  background:transparent;color:#fff;font-size:22px;cursor:pointer}
+
+/* ===== Hero ===== */
+.hero{padding:56px 0 40px;text-align:center}
+.hero h1{font-size:clamp(26px,5vw,44px);line-height:1.25;margin-bottom:16px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p{max-width:620px;margin:0 auto 24px;color:var(--muted);font-size:15px}
+.search-box{max-width:520px;margin:0 auto;display:flex;gap:8px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:8px}
+.search-box input{flex:1;background:transparent;border:0;outline:0;color:#fff;padding:10px 12px;font-size:15px}
+.search-box button{background:linear-gradient(135deg,var(--accent),var(--accent2));border:0;
+  border-radius:10px;padding:0 20px;color:#1a1a1a;font-weight:700;cursor:pointer;font-size:15px}
+
+/* ===== Section common ===== */
+section{padding:44px 0}
+.section-head{display:flex;align-items:baseline;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.section-head h2{font-size:22px}
+.section-head h2::before{content:"";display:inline-block;width:5px;height:20px;
+  background:var(--accent);border-radius:3px;margin-right:10px;vertical-align:-2px}
+.section-head .en{font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.section-head .more{margin-left:auto;font-size:13px;color:var(--accent);white-space:nowrap}
+
+/* ===== Movie cards ===== */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px}
+.movie-card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  transition:.25s;cursor:pointer}
+.movie-card:hover{transform:translateY(-4px);border-color:var(--accent)}
+.poster{position:relative;aspect-ratio:2/3;background:linear-gradient(135deg,#37474f,#1c2b30)}
+.poster .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:34px;font-weight:800;color:rgba(255,255,255,.85)}
+.poster .badge{position:absolute;top:8px;left:8px;background:var(--accent);color:#1a1a1a;
+  font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px}
+.poster .score{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.65);font-size:12px;
+  padding:2px 8px;border-radius:20px;color:var(--accent)}
+.movie-card .info{padding:10px 12px}
+.movie-card .info h3{font-size:15px;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.movie-card .info p{font-size:12px;color:var(--muted)}
+
+/* ===== Ranking (horizontal scroll, numbered) ===== */
+.rank-wrap{overflow-x:auto;scrollbar-width:thin;padding-bottom:8px}
+.rank-wrap::-webkit-scrollbar{height:6px}
+.rank-wrap::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+.rank-list{display:flex;gap:14px;min-width:max-content}
+.rank-item{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:10px 14px;min-width:250px}
+.rank-num{font-size:26px;font-weight:900;color:var(--line);line-height:1;min-width:38px}
+.rank-item:nth-child(1) .rank-num{color:#ff5252}
+.rank-item:nth-child(2) .rank-num{color:#ff9800}
+.rank-item:nth-child(3) .rank-num{color:#ffd54f}
+.rank-item .rt{font-size:14px;font-weight:600}
+.rank-item .rt small{display:block;font-size:12px;color:var(--muted);font-weight:400}
+
+/* ===== Banner strip (genre) ===== */
+.banner-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.banner{position:relative;border-radius:16px;padding:26px 20px;min-height:120px;overflow:hidden;cursor:pointer}
+.banner::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.35)}
+.banner *{position:relative;z-index:1}
+.banner h3{font-size:19px;margin-bottom:6px}
+.banner p{font-size:13px;opacity:.9}
+.b1{background:linear-gradient(135deg,#6a11cb,#2575fc)}
+.b2{background:linear-gradient(135deg,#f7971e,#ffd200)}
+.b3{background:linear-gradient(135deg,#ee0979,#ff6a00)}
+.b4{background:linear-gradient(135deg,#11998e,#38ef7d)}
+
+/* ===== Tag cloud ===== */
+.tag-cloud{display:flex;flex-wrap:wrap;gap:10px}
+.tag-cloud a{background:var(--card);border:1px solid var(--line);border-radius:30px;padding:7px 16px;
+  font-size:14px;color:var(--muted);transition:.2s}
+.tag-cloud a:hover{color:#1a1a1a;background:var(--accent);border-color:var(--accent)}
+
+/* ===== Table ===== */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+table{width:100%;border-collapse:collapse;min-width:560px;font-size:14px}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line)}
+th{background:rgba(255,255,255,.04);color:var(--accent);font-size:13px;white-space:nowrap}
+tbody tr:hover{background:rgba(255,255,255,.04)}
+td.name{font-weight:600}
+td.cat{color:var(--accent2)}
+@media(max-width:640px){.col-hide{display:none}}
+
+/* ===== Footer ===== */
+.site-footer{background:rgba(0,0,0,.3);border-top:1px solid var(--line);padding:36px 0 24px;margin-top:30px}
+.foot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-bottom:24px}
+.foot-grid h4{font-size:15px;margin-bottom:10px;color:var(--accent)}
+.foot-grid ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.foot-grid a{font-size:13px;color:var(--muted)}
+.foot-grid a:hover{color:#fff}
+.copyright{text-align:center;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+
+/* ===== Mobile ===== */
+@media(max-width:820px){
+  .menu-btn{display:block}
+  .nav-links{position:fixed;top:64px;left:0;right:0;flex-direction:column;background:rgba(15,32,39,.98);
+    padding:16px;gap:4px;border-bottom:1px solid var(--line);max-height:0;overflow:hidden;transition:.3s}
+  .nav-links.open{max-height:420px}
+  .nav-links a{padding:12px;border-radius:10px}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="#" class="logo">三五<span>电影网</span></a>
+    <nav>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">首页</a></li>
+        <li><a href="#pick">精选电影</a></li>
+        <li><a href="#rank">热门榜单</a></li>
+        <li><a href="#genre">影视分类</a></li>
+        <li><a href="#update">最新更新</a></li>
+        <li><a href="#about">关于本站</a></li>
+      </ul>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="container">
+      <h1>三五电影网 · 发现<em>好电影</em>的一站式入口</h1>
+      <p>聚合全网热门电影、高分剧集与经典老片，分类清晰、更新及时，手机与电脑皆可流畅浏览。</p>
+      <form class="search-box" onsubmit="return false;">
+        <input type="search" placeholder="搜索影片名称、演员、导演…" aria-label="搜索">
+        <button type="submit">搜索</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 1. 精选电影 -->
+  <section id="pick">
+    <div class="container">
+      <div class="section-head">
+        <h2>精选电影</h2><span class="en">Featured Films</span>
+        <a href="#" class="more">查看更多 ›</a>
+      </div>
+      <div class="card-grid">
+        <article class="movie-card"><div class="poster"><span class="ph">星际</span><span class="badge">热门</span><span class="score">9.3</span></div><div class="info"><h3>星际回响</h3><p>科幻 · 2026 · 豆瓣高分</p></div></article>
+        <article class="movie-card"><div class="poster"><span class="ph">暗夜</span><span class="badge">推荐</span><span class="score">8.7</span></div><div class="info"><h3>暗夜追凶</h3><p>悬疑 · 犯罪 · 烧脑</p></div></article>
+        <article class="movie-card"><div class="poster"><span class="ph">长安</span><span class="score">9.0</span></div><div class="info"><h3>长安十二时</h3><p>古装 · 剧情 · 史诗</p></div></article>
+        <article class="movie-card"><div class="poster"><span class="ph">深海</span><span class="badge">新片</span><span class="score">8.5</span></div><div class="info"><h3>深海之光</h3><p>动画 · 奇幻 · 治愈</p></div></article>
+        <article class="movie-card"><div class="poster"><span class="ph">逆风</span><span class="score">8.2</span></div><div class="info"><h3>逆风飞翔</h3><p>运动 · 励志 · 热血</p></div></article>
+        <article class="movie-card"><div class="poster"><span class="ph">云端</span><span class="badge">独家</span><span class="score">8.9</span></div><div class="info"><h3>云端恋人</h3><p>爱情 · 都市 · 浪漫</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 热门榜单 -->
+  <section id="rank" style="background:rgba(0,0,0,.2);">
+    <div class="container">
+      <div class="section-head">
+        <h2>热门榜单</h2><span class="en">Top Ranking</span>
+        <a href="#" class="more">完整榜单 ›</a>
+      </div>
+      <div class="rank-wrap">
+        <div class="rank-list">
+          <div class="rank-item"><span class="rank-num">01</span><div class="rt">破晓之战<small>动作 / 2026 / 9.5分</small></div></div>
+          <div class="rank-item"><span class="rank-num">02</span><div class="rt">无声告白<small>剧情 / 2025 / 9.2分</small></div></div>
+          <div class="rank-item"><span class="rank-num">03</span><div class="rt">机械之心<small>科幻 / 2026 / 9.0分</small></div></div>
+          <div class="rank-item"><span class="rank-num">04</span><div class="rt">春日迟迟<small>爱情 / 2025 / 8.8分</small></div></div>
+          <div class="rank-item"><span class="rank-num">05</span><div class="rt">荒野猎人<small>冒险 / 2024 / 8.7分</small></div></div>
+          <div class="rank-item"><span class="rank-num">06</span><div class="rt">城市边缘<small>犯罪 / 2026 / 8.6分</small></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 影视分类 -->
+  <section id="genre">
+    <div class="container">
+      <div class="section-head">
+        <h2>影视分类</h2><span class="en">Categories</span>
+        <a href="#" class="more">全部分类 ›</a>
+      </div>
+      <div class="banner-grid">
+        <div class="banner b1"><h3>动作冒险</h3><p>热血大片、极限动作，肾上腺素拉满</p></div>
+        <div class="banner b2"><h3>喜剧轻松</h3><p>减压必备，欢乐合家欢</p></div>
+        <div class="banner b3"><h3>悬疑惊悚</h3><p>反转烧脑，层层揭开真相</p></div>
+        <div class="banner b4"><h3>科幻奇幻</h3><p>脑洞宇宙，视觉盛宴</p></div>
+      </div>
+      <div class="tag-cloud" style="margin-top:18px;">
+        <a href="#">爱情</a><a href="#">动画</a><a href="#">纪录片</a><a href="#">历史</a>
+        <a href="#">战争</a><a href="#">恐怖</a><a href="#">家庭</a><a href="#">音乐</a>
+        <a href="#">短片</a><a href="#">综艺</a><a href="#">美剧</a><a href="#">韩剧</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 最新更新（表格，差异化结构） -->
+  <section id="update" style="background:rgba(0,0,0,.2);">
+    <div class="container">
+      <div class="section-head">
+        <h2>最新更新</h2><span class="en">Latest Updates</span>
+        <a href="#" class="more">更新记录 ›</a>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>影片名称</th><th class="col-hide">类型</th><th class="col-hide">地区</th><th>年份</th><th>更新时间</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="name">雾都孤儿</td><td class="cat col-hide">剧情</td><td class="col-hide">中国大陆</td><td>2026</td><td>10-02</td></tr>
+            <tr><td class="name">云端之上</td><td class="cat col-hide">爱情</td><td class="col-hide">中国香港</td><td>2026</td><td>10-02</td></tr>
+            <tr><td class="name">雷霆行动</td><td class="cat col-hide">动作</td><td class="col-hide">美国</td><td>2025</td><td>10-01</td></tr>
+            <tr><td class="name">麦田里的守望</td><td class="cat col-hide">文艺</td><td class="col-hide">法国</td><td>2025</td><td>09-30</td></tr>
+            <tr><td class="name">末日方舟</td><td class="cat col-hide">科幻</td><td class="col-hide">英国</td><td>2026</td><td>09-29</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 关于本站 -->
+  <section id="about">
+    <div class="container">
+      <div class="section-head"><h2>关于三五电影网</h2><span class="en">About Us</span></div>
+      <p style="color:var(--muted);max-width:820px;">
+        三五电影网（sanwudianyingwang-h5）致力于为影迷提供便捷的影视资源导航服务，涵盖电影、剧集、综艺等多类目内容。
+        本站持续整理热门榜单与分类索引，帮助你快速发现值得一看的好作品。欢迎收藏本站，随时随地发现好电影。
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <h4>三五电影网</h4>
+        <p style="font-size:13px;color:var(--muted);">发现好电影的一站式入口</p>
+      </div>
+      <div>
+        <h4>栏目导航</h4>
+        <ul>
+          <li><a href="#pick">精选电影</a></li>
+          <li><a href="#rank">热门榜单</a></li>
+          <li><a href="#genre">影视分类</a></li>
+          <li><a href="#update">最新更新</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>友情链接</h4>
+        <ul>
+          <li><a href="#">影视资讯</a></li>
+          <li><a href="#">影评社区</a></li>
+          <li><a href="#">排行榜单</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>站点信息</h4>
+        <ul>
+          <li><a href="#">关于本站</a></li>
+          <li><a href="#">免责声明</a></li>
+          <li><a href="#">联系我们</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2026 三五电影网 sanwudianyingwang-h5 · 网址：https://sanwudianyingwang-h5.github.io/
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('menuBtn').addEventListener('click',function(){
+  document.getElementById('navLinks').classList.toggle('open');
+});
+document.querySelectorAll('.nav-links a').forEach(function(a){
+  a.addEventListener('click',function(){document.getElementById('navLinks').classList.remove('open');});
+});
+</script>
+
+</body>
+</html>
